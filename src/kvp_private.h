@@ -7,6 +7,10 @@
 #include "mrkdb/lstore.h"
 #include "mrkcommon/array.h"
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 
 /*
  * Multi-Processor labels
@@ -88,6 +92,10 @@ typedef struct _kvp_store {
 } kvp_store_t;
 
 #define KVP_CTX_T_DEFINED
+
+#ifdef __cplusplus
+}
+#endif
 
 #include "mrkdb/kvp.h"
 

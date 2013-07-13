@@ -3,6 +3,10 @@
 
 #include <stdint.h>
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #ifndef KVP_ITEM_DEFINED
 typedef struct _kvp_item {
     size_t sz;
@@ -44,6 +48,11 @@ const kvp_item_t *kvp_get_from_args(kvp_ctx_t *, size_t, const void *);
 
 void kvp_get_stats(kvp_ctx_t *, kvp_stats_t *);
 void kvp_stores_dump(kvp_ctx_t *);
+
+#ifdef __cplusplus
+}
+#endif
+
 #endif
 
 // vim:list

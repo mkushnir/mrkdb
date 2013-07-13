@@ -9,6 +9,10 @@
 
 #include "mrkcommon/trie.h"
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 
 /*
  * Storage interface.
@@ -106,6 +110,10 @@ typedef struct _lstore_ctx {
 
 } lstore_ctx_t;
 #define LSTORE_CTX_T_DEFINED
+
+#ifdef __cplusplus
+}
+#endif
 
 #include "mrkdb/lstore.h"
 #endif

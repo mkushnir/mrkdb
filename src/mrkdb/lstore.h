@@ -4,6 +4,10 @@
 #include <stddef.h>
 #include <stdint.h>
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #ifndef LSTORE_CTX_T_DEFINED
 #define LSTORE_CTX_T_DEFINED
 typedef struct _lstore_ctx lstore_ctx_t;
@@ -33,4 +37,9 @@ uint64_t lstore_offset(void *);
 uint64_t lstore_elen(void *);
 
 void lstore_get_stats(lstore_ctx_t *, lstore_stats_t *);
+
+#ifdef __cplusplus
+}
+#endif
+
 #endif

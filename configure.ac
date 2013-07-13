@@ -51,4 +51,5 @@ AC_ARG_ENABLE(debug,
              )
 
 AC_CHECK_LIB(mrkcommon, _fini, [], [AC_MSG_FAILURE(libmrkcommon.so is required. Please find it at git@github.com:mkushnir/mrkcommon.git)]) 
+
 AC_OUTPUT
