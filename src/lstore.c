@@ -145,7 +145,7 @@ unnote_block_fast(trie_t *list, uintptr_t key)
     }
 
     n->value = NULL;
-    trie_node_remove(n);
+    trie_remove_node(list, n);
 }
 
 static void
@@ -218,7 +218,7 @@ unnote_block(trie_t *list, uintptr_t key, lstore_header_t *block)
     if (SLIST_EMPTY(&blst->head)) {
         free(blst);
         n->value = NULL;
-        trie_node_remove(n);
+        trie_remove_node(list, n);
     }
     //TRACE();
     //trie_traverse(list, trie_node_dump_cb, 0);
@@ -252,7 +252,7 @@ unnote_one(trie_t *list, uintptr_t key)
     if (SLIST_EMPTY(&blst->head)) {
         free(blst);
         n->value = NULL;
-        trie_node_remove(n);
+        trie_remove_node(list, n);
     }
     return block;
 }
