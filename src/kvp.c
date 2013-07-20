@@ -206,7 +206,7 @@ kvp_put_from_args_fd(kvp_ctx_t *ctx, size_t keysz, const void *keydata,
                   size_t valuesz, int valuefd)
 {
     array_iter_t it;
-    kvp_store_t *store;
+    kvp_store_t *store = NULL;
     kvp_record_t *rec = NULL;
     kvpe_t inentry, *outentry;
 

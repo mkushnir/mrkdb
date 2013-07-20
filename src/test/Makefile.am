@@ -9,7 +9,13 @@ dist_HEADERS = unittest.h
 
 BUILT_SOURCES = ../diag.c ../diag.h
 
-CFLAGS = -Wall -Wextra -Werror -std=c99 -I.. -g -O0 -ftrapv -fcatch-undefined-behavior -I$(HOME)/include -DTRRET_DEBUG
+if DEBUG
+DEBUG_FLAGS = -g -O0 $(CLANG_DEBUG)
+#DEBUG_FLAGS = -g -O0 $(CLANG_DEBUG) -DTRRET_DEBUG
+else
+DEBUG_FLAGS = -DNDEBUG -O3
+endif
+CFLAGS = $(DEBUG_FLAGS) -Wall -Wextra -Werror -std=c99 -I.. -I$(HOME)/include
 LDFLAGS += -lmrkcommon
 
 testfoo_SOURCES = ../diag.c testfoo.c

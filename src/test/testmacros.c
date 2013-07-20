@@ -8,8 +8,8 @@ main(void)
 {
     unsigned i;
     struct {
-        int in;
-        int expected;
+        unsigned in;
+        unsigned expected;
     } data[] = {
         {0, 0},
         {1, 8},

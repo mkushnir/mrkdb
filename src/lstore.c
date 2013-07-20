@@ -648,10 +648,11 @@ lstore_realloc(void *data, size_t newdatasz)
 
         } else {
             /* relocate */
-            size_t datasz = DATASZ(block->sz);
+            size_t datasz;
             void *newdata;
 
 relocate:
+            datasz = DATASZ(block->sz);
             if ((newdata = lstore_alloc(ctx, newdatasz)) == NULL) {
                 return NULL;
             }
