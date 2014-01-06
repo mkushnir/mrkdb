@@ -7,6 +7,8 @@
 extern "C" {
 #endif
 
+const char *mrkdb_diag_str(int);
+
 #ifndef KVP_ITEM_DEFINED
 typedef struct _kvp_item {
     size_t sz;

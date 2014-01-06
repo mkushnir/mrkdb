@@ -8,6 +8,8 @@
 extern "C" {
 #endif
 
+const char *mrkdb_diag_str(int);
+
 #ifndef LSTORE_CTX_T_DEFINED
 #define LSTORE_CTX_T_DEFINED
 typedef struct _lstore_ctx lstore_ctx_t;
