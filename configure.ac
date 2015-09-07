@@ -52,6 +52,7 @@ AC_PROG_INSTALL
 
 LT_INIT
 AM_INIT_AUTOMAKE
+AM_SILENT_RULES([yes])
 
 dnl AM_MAINTAINER_MODE
 
@@ -59,6 +60,9 @@ AC_CONFIG_FILES([Makefile src/Makefile src/test/Makefile man/Makefile])
 AC_CONFIG_HEADERS(config.h)
 
 AC_CHECK_HEADERS([syslog.h fcntl.h stddef.h sys/param.h])
+# mrkcommon/trie.h
+AC_CHECK_HEADERS([limits.h])
+AC_CHECK_HEADERS([sys/limits.h])
 
 AC_C_CONST
 AC_C_INLINE
