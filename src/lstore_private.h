@@ -7,7 +7,7 @@
 #include <sys/types.h>
 #include <sys/param.h>
 
-#include "mrkcommon/trie.h"
+#include "mrkcommon/btrie.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -62,9 +62,9 @@ typedef struct _lstore_header {
 #define ADDR2OFFT(ctx, addr) ((uint64_t)(((uintptr_t)(addr)) - ((uintptr_t)((ctx)->store))))
 
 #define BLOCK2CTX(block) \
-    ((lstore_ctx_t *)(((uintptr_t) (block)) - (block)->offt         - sizeof(lstore_ctx_t))) 
+    ((lstore_ctx_t *)(((uintptr_t) (block)) - (block)->offt         - sizeof(lstore_ctx_t)))
 #define ADDR2CTX(ctx, addr) \
-    ((lstore_ctx_t *)(((uintptr_t) (addr))  - ADDR2OFFT(ctx, block) - sizeof(lstore_ctx_t))) 
+    ((lstore_ctx_t *)(((uintptr_t) (addr))  - ADDR2OFFT(ctx, block) - sizeof(lstore_ctx_t)))
 
 #define OFFT2BLOCK(ctx, offt) \
     ((lstore_header_t *)(((uintptr_t)(ctx)->store) + ((uintptr_t)(offt))))
@@ -102,9 +102,9 @@ typedef struct _lstore_ctx {
     uint64_t magic;
     size_t store_sz;
     /* indexed by size */
-    trie_t free_list;
+    btrie_t free_list;
     /* indexed by address */
-    trie_t used_list;
+    btrie_t used_list;
     size_t nblocks_used;
     size_t nbytes_used;
 

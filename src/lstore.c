@@ -12,7 +12,7 @@
 #include "mrkcommon/dumpm.h"
 #include "mrkcommon/util.h"
 #include "lstore_private.h"
-#include "mrkcommon/trie.h"
+#include "mrkcommon/btrie.h"
 
 
 static int block_check(lstore_ctx_t *, lstore_header_t *);
@@ -126,36 +126,36 @@ lstore_get_stats(lstore_ctx_t *ctx, lstore_stats_t *stats)
 }
 
 static void
-note_block_fast(trie_t *list, uintptr_t key, lstore_header_t *block)
+note_block_fast(btrie_t *list, uintptr_t key, lstore_header_t *block)
 {
-    trie_node_t *n;
-    n = trie_add_node(list, key);
+    btrie_node_t *n;
+    n = btrie_add_node(list, key);
     n->value = block;
 }
 
 static void
-unnote_block_fast(trie_t *list, uintptr_t key)
+unnote_block_fast(btrie_t *list, uintptr_t key)
 {
-    trie_node_t *n;
+    btrie_node_t *n;
 
-    n = trie_find_exact(list, key);
+    n = btrie_find_exact(list, key);
 
     if (n == NULL || n->value == NULL) {
         return;
     }
 
     n->value = NULL;
-    trie_remove_node(list, n);
+    btrie_remove_node(list, n);
 }
 
 static void
-note_block(trie_t *list, uintptr_t key, lstore_header_t *block)
+note_block(btrie_t *list, uintptr_t key, lstore_header_t *block)
 {
-    trie_node_t *n;
+    btrie_node_t *n;
     block_list_t *blst;
     block_list_entry_t *ble;
 
-    n = trie_add_node(list, key);
+    n = btrie_add_node(list, key);
     //TRACE("n=%p", n);
 
     if (n->value == NULL) {
@@ -187,17 +187,17 @@ note_block(trie_t *list, uintptr_t key, lstore_header_t *block)
     ble->block = block;
     SLIST_INSERT_HEAD(&blst->head, ble, link);
     //TRACE();
-    //trie_traverse(list, trie_node_dump_cb, 0);
+    //btrie_traverse(list, btrie_node_dump_cb, 0);
 }
 
 static void
-unnote_block(trie_t *list, uintptr_t key, lstore_header_t *block)
+unnote_block(btrie_t *list, uintptr_t key, lstore_header_t *block)
 {
-    trie_node_t *n;
+    btrie_node_t *n;
     block_list_t *blst;
     block_list_entry_t *ble;
 
-    n = trie_find_exact(list, key);
+    n = btrie_find_exact(list, key);
 
     if (n == NULL || n->value == NULL) {
         return;
@@ -218,23 +218,23 @@ unnote_block(trie_t *list, uintptr_t key, lstore_header_t *block)
     if (SLIST_EMPTY(&blst->head)) {
         free(blst);
         n->value = NULL;
-        trie_remove_node(list, n);
+        btrie_remove_node(list, n);
     }
     //TRACE();
-    //trie_traverse(list, trie_node_dump_cb, 0);
+    //btrie_traverse(list, btrie_node_dump_cb, 0);
 }
 
 static lstore_header_t *
-unnote_one(trie_t *list, uintptr_t key)
+unnote_one(btrie_t *list, uintptr_t key)
 {
-    trie_node_t *n;
+    btrie_node_t *n;
     block_list_t *blst;
     block_list_entry_t *ble;
     lstore_header_t *block = NULL;
 
     //TRACE("key=%016lx", key);
-    //trie_traverse(list, trie_node_dump_cb, 0);
-    n = trie_find_closest(list, key, 1);
+    //btrie_traverse(list, btrie_node_dump_cb, 0);
+    n = btrie_find_closest(list, key, 1);
 
     if (n == NULL || n->value == NULL) {
         TRRETNULL(UNNOTE_ONE + 1);
@@ -252,7 +252,7 @@ unnote_one(trie_t *list, uintptr_t key)
     if (SLIST_EMPTY(&blst->head)) {
         free(blst);
         n->value = NULL;
-        trie_remove_node(list, n);
+        btrie_remove_node(list, n);
     }
     return block;
 }
@@ -427,7 +427,7 @@ lstore_alloc(lstore_ctx_t *ctx, size_t datasz)
 void *
 lstore_alloc_at(lstore_ctx_t *ctx, uint64_t offset, size_t datasz)
 {
-    trie_node_t *n;
+    btrie_node_t *n;
     lstore_header_t *block = NULL;
     size_t sz;
     intptr_t window_below, window_above;
@@ -450,9 +450,9 @@ lstore_alloc_at(lstore_ctx_t *ctx, uint64_t offset, size_t datasz)
      * First see if there is a used block covering the given offset.
      */
     //TRACE("offset=%lx", offset);
-    n = trie_find_closest(&ctx->used_list, offset, 0);
+    n = btrie_find_closest(&ctx->used_list, offset, 0);
     //TRACE();
-    //trie_traverse(&ctx->used_list, trie_node_dump_cb, 0);
+    //btrie_traverse(&ctx->used_list, btrie_node_dump_cb, 0);
     if (n != NULL) {
 
         block = (lstore_header_t *)n->value;
@@ -825,8 +825,8 @@ lstore_init_fd(int fd, void (*cb)(lstore_ctx_t *, void *, void *),
 
     ctx->fd = fd;
 
-    trie_init(&ctx->free_list);
-    trie_init(&ctx->used_list);
+    btrie_init(&ctx->free_list);
+    btrie_init(&ctx->used_list);
 
     ctx->store = (void *)(((uintptr_t)ctx) + sizeof(lstore_ctx_t));
 
@@ -878,8 +878,8 @@ lstore_init(const char *path,
 void
 lstore_fini(lstore_ctx_t *ctx)
 {
-    trie_fini(&ctx->free_list);
-    trie_fini(&ctx->used_list);
+    btrie_fini(&ctx->free_list);
+    btrie_fini(&ctx->used_list);
 
     if (msync(ctx->store, 0, MS_SYNC) == -1) {
         perror("msync");
