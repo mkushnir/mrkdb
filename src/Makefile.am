@@ -1,7 +1,7 @@
 AUTOMAKE_OPTIONS = foreign
 
 distdir = ../$(PACKAGE)-$(VERSION)/src
-dist_HEADERS =
+dist_HEADERS = lstore_private.h
 
 BUILT_SOURCES = diag.c diag.h
 EXTRA_DIST = diag.txt gen-diag
@@ -12,7 +12,7 @@ lib_LTLIBRARIES = libmrkdb.la
 
 nobase_include_HEADERS = mrkdb/lstore.h mrkdb/kvp.h
 
-noinst_HEADERS = lstore_private.h
+noinst_HEADERS =
 
 libmrkdb_la_SOURCES = lstore.c kvp.c
 nodist_libmrkdb_la_SOURCES = diag.c
