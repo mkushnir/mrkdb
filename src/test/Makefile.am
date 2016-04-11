@@ -5,7 +5,7 @@ CLEANFILES = *.core
 noinst_PROGRAMS=testfoo testmacros testlstore testkvp testtraversedir
 
 distdir = ../../$(PACKAGE)-$(VERSION)/src/test
-dist_HEADERS = unittest.h
+noinst_HEADERS = unittest.h
 
 BUILT_SOURCES = ../diag.c ../diag.h
 
