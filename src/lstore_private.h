@@ -102,9 +102,9 @@ typedef struct _lstore_ctx {
     uint64_t magic;
     size_t store_sz;
     /* indexed by size */
-    btrie_t free_list;
+    mnbtrie_t free_list;
     /* indexed by address */
-    btrie_t used_list;
+    mnbtrie_t used_list;
     size_t nblocks_used;
     size_t nbytes_used;
 

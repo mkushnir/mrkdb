@@ -29,7 +29,7 @@ typedef struct _file_info2 {
     file_info_t *fi;
 } file_info2_t;
 
-static array_t files;
+static mnarray_t files;
 #define TSF_INITIALIZED 0x01
 #define TSF_SHUTDOWN    0x02
 static int test_suite_flags;
@@ -56,7 +56,7 @@ set_shutdown(UNUSED int sig)
 static int
 mycb(const char *path, struct dirent *de, void *ctx)
 {
-    array_t *files = (array_t *)ctx;
+    mnarray_t *files = (mnarray_t *)ctx;
     file_info_t *fi;
     UNUSED struct stat sb;
 
@@ -194,7 +194,7 @@ run_put(kvp_ctx_t *ctx, file_info_t *fi)
 static void
 run_delete(kvp_ctx_t *ctx, int delete_step)
 {
-    array_iter_t it;
+    mnarray_iter_t it;
     file_info_t *fi;
     file_info2_t *dfiles;
     int i, ndelete = delete_step / DELETE_RATIO;
@@ -255,7 +255,7 @@ test_put_delete(unsigned delete_step)
 {
     unsigned i;
     file_info_t *fi;
-    array_iter_t it;
+    mnarray_iter_t it;
     kvp_ctx_t *ctx;
     kvp_stats_t stats;
 

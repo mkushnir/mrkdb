@@ -67,7 +67,7 @@ kvp_get_from_args(kvp_ctx_t *ctx, size_t sz, const void *data)
 MPSAFE int
 kvp_put(kvp_ctx_t *ctx, const kvp_item_t *key, const kvp_item_t *value)
 {
-    array_iter_t it;
+    mnarray_iter_t it;
     kvp_store_t *store;
     kvp_record_t *rec = NULL;
     kvpe_t inentry, *outentry;
@@ -130,7 +130,7 @@ MPSAFE int
 kvp_put_from_args(kvp_ctx_t *ctx, size_t keysz, const void *keydata,
                   size_t valuesz, const void *valuedata)
 {
-    array_iter_t it;
+    mnarray_iter_t it;
     kvp_store_t *store;
     kvp_record_t *rec = NULL;
     kvpe_t inentry, *outentry;
@@ -205,7 +205,7 @@ MPSAFE int
 kvp_put_from_args_fd(kvp_ctx_t *ctx, size_t keysz, const void *keydata,
                   size_t valuesz, int valuefd)
 {
-    array_iter_t it;
+    mnarray_iter_t it;
     kvp_store_t *store = NULL;
     kvp_record_t *rec = NULL;
     kvpe_t inentry, *outentry;
@@ -453,7 +453,7 @@ kvp_get_stats(kvp_ctx_t *ctx, kvp_stats_t *stats)
 {
     lstore_stats_t lst;
     kvp_store_t *store;
-    array_iter_t it;
+    mnarray_iter_t it;
 
     stats->sz = 0;
     stats->nbytes_used = 0;

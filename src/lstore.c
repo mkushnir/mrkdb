@@ -126,17 +126,17 @@ lstore_get_stats(lstore_ctx_t *ctx, lstore_stats_t *stats)
 }
 
 static void
-note_block_fast(btrie_t *list, uintptr_t key, lstore_header_t *block)
+note_block_fast(mnbtrie_t *list, uintptr_t key, lstore_header_t *block)
 {
-    btrie_node_t *n;
+    mnbtrie_node_t *n;
     n = btrie_add_node(list, key);
     n->value = block;
 }
 
 static void
-unnote_block_fast(btrie_t *list, uintptr_t key)
+unnote_block_fast(mnbtrie_t *list, uintptr_t key)
 {
-    btrie_node_t *n;
+    mnbtrie_node_t *n;
 
     n = btrie_find_exact(list, key);
 
@@ -149,9 +149,9 @@ unnote_block_fast(btrie_t *list, uintptr_t key)
 }
 
 static void
-note_block(btrie_t *list, uintptr_t key, lstore_header_t *block)
+note_block(mnbtrie_t *list, uintptr_t key, lstore_header_t *block)
 {
-    btrie_node_t *n;
+    mnbtrie_node_t *n;
     block_list_t *blst;
     block_list_entry_t *ble;
 
@@ -191,9 +191,9 @@ note_block(btrie_t *list, uintptr_t key, lstore_header_t *block)
 }
 
 static void
-unnote_block(btrie_t *list, uintptr_t key, lstore_header_t *block)
+unnote_block(mnbtrie_t *list, uintptr_t key, lstore_header_t *block)
 {
-    btrie_node_t *n;
+    mnbtrie_node_t *n;
     block_list_t *blst;
     block_list_entry_t *ble;
 
@@ -225,9 +225,9 @@ unnote_block(btrie_t *list, uintptr_t key, lstore_header_t *block)
 }
 
 static lstore_header_t *
-unnote_one(btrie_t *list, uintptr_t key)
+unnote_one(mnbtrie_t *list, uintptr_t key)
 {
-    btrie_node_t *n;
+    mnbtrie_node_t *n;
     block_list_t *blst;
     block_list_entry_t *ble;
     lstore_header_t *block = NULL;
@@ -427,7 +427,7 @@ lstore_alloc(lstore_ctx_t *ctx, size_t datasz)
 void *
 lstore_alloc_at(lstore_ctx_t *ctx, uint64_t offset, size_t datasz)
 {
-    btrie_node_t *n;
+    mnbtrie_node_t *n;
     lstore_header_t *block = NULL;
     size_t sz;
     intptr_t window_below, window_above;

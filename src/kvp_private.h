@@ -81,7 +81,7 @@ RB_HEAD(_kvpt, _kvpe);
 
 typedef struct _kvp_ctx {
     struct _kvpt index;
-    array_t stores;
+    mnarray_t stores;
 } kvp_ctx_t;
 
 typedef struct _kvp_store {
