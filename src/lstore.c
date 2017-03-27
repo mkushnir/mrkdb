@@ -409,7 +409,9 @@ lstore_alloc(lstore_ctx_t *ctx, size_t datasz)
         TRRETNULL(LSTORE_ALLOC + 2);
     }
 
-    memset(block->data, PADCHAR, datasz);
+#ifndef NDEBUG
+    memset(block->data, PADCHAR0, datasz);
+#endif
 
     return block->data;
 }
@@ -471,7 +473,7 @@ lstore_alloc_at(lstore_ctx_t *ctx, uint64_t offset, size_t datasz)
             FAIL("block_check");
         }
 
-        assert((!block->flags & USED));
+        assert(!(block->flags & USED));
 
         window_below = offset - ADDR2OFFT(ctx, block);
         if (window_below < 0) {
@@ -550,7 +552,11 @@ lstore_alloc_at(lstore_ctx_t *ctx, uint64_t offset, size_t datasz)
             block_init(ctx, hi, hisz, offset, 0);
             note_block(&ctx->free_list, hisz, hi);
         }
-        memset(res->data, PADCHAR, datasz);
+
+#ifndef NDEBUG
+        memset(res->data, PADCHAR0, datasz);
+#endif
+
         return res->data;
     }
 
@@ -623,7 +629,9 @@ lstore_realloc(void *data, size_t newdatasz)
                 }
                 block_join(ctx, next, block);
                 count_used_bytes(ctx, nextsz);
-                memset(next, PADCHAR, nextsz);
+#ifndef NDEBUG
+                memset(next, PADCHAR0, nextsz);
+#endif
                 return data;
 
             } else if ((diff + MINIMALBLOCKSZ) <= nextsz) {
@@ -634,7 +642,9 @@ lstore_realloc(void *data, size_t newdatasz)
                 }
                 block_init(ctx, block, block->sz + diff, block->prev, USED);
                 count_used_bytes(ctx, diff);
-                memset(next, PADCHAR, diff);
+#ifndef NDEBUG
+                memset(next, PADCHAR0, diff);
+#endif
                 /* advance to next free and make note of it */
                 next = BLOCKNEXT(block);
                 block_init(ctx, next, nextsz - diff, ADDR2OFFT(ctx, block), 0);
@@ -657,7 +667,9 @@ relocate:
                 return NULL;
             }
             memcpy(newdata, data, datasz);
-            memset((void *)((uintptr_t)newdata + datasz), PADCHAR,
+#ifndef NDEBUG
+            memset((void *)((uintptr_t)newdata + datasz), PADCHAR0,
+#endif
                    newdatasz - datasz);
             lstore_free(data);
             return newdata;

@@ -39,7 +39,7 @@ testtraversedir_CFLAGS =
 testtraversedir_LDFLAGS =
 
 ../diag.c ../diag.h: ../diag.txt
-	$(AM_V_GEN) /bin/sh ../gen-diag mrkdb
+	$(AM_V_GEN) cat ../diag.txt | sort -u | /bin/sh ../gen-diag mrkdb ..
 
 testrun: all
 	for i in $(noinst_PROGRAMS); do if test -x ./$$i; then LD_LIBRARY_PATH=$(libdir) ./$$i; fi; done;

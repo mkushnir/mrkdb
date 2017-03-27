@@ -83,7 +83,8 @@ typedef struct _lstore_header {
  *
  */
 
-#define PADCHAR 0x00
+#define PADCHAR0 0x5a
+#define PADCHAR1 0xa5
 
 typedef struct _block_list_entry {
     lstore_header_t *block;
